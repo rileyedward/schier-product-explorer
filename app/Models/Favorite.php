@@ -14,10 +14,7 @@ class Favorite extends Model
 
     protected $fillable = [
         'user_id',
-        'product_sku',
-        'product_name',
-        'product_price',
-        'image_url',
+        'product_id',
     ];
 
     public function user(): BelongsTo

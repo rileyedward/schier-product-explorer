@@ -78,7 +78,11 @@ watch(filterQuery, value => handleQueryChange('filter', value));
                 @filter="value => handleQueryChange('filter', value)"
             />
 
-            <product-list v-if="!isSearching" :products="products" />
+            <product-list
+                v-if="!isSearching"
+                :products="products"
+                :favorites="favorites"
+            />
 
             <!-- Loading Spinner -->
             <div v-else class="flex justify-center py-4">

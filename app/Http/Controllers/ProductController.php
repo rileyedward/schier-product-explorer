@@ -83,6 +83,25 @@ class ProductController extends Controller
         return inertia('products/products-favorites');
     }
 
+    public function toggleFavorite(Request $request, Product $product): RedirectResponse
+    {
+        $user = $request->user();
+        $favorite = Favorite::query()->where('user_id', $user->id)
+            ->where('product_id', $product->id)
+            ->first();
+
+        if ($favorite) {
+            $favorite->delete();
+        } else {
+            Favorite::query()->create([
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+            ]);
+        }
+
+        return back();
+    }
+
     public function sync(): RedirectResponse
     {
         SyncSchierProductsJob::dispatch();

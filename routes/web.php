@@ -19,6 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/favorites', 'favorites')->name('favorites');
+            Route::post('/{product}/toggle-favorite', 'toggleFavorite')->name('toggle-favorite');
             Route::post('/sync', 'sync')->name('sync');
         });
 });
