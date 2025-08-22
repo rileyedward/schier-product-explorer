@@ -26,6 +26,7 @@ class ProductController extends Controller
     public function index(Request $request): Response
     {
         $search = $request->input('search');
+        $filter = $request->input('filter');
         $productTypes = ProductType::query()->get();
 
         $productsQuery = Product::query();
@@ -37,9 +38,8 @@ class ProductController extends Controller
                     ->orWhere('part_number', 'like', "%{$search}%");
             });
 
-            // Store the search query in recent searches
             if ($request->user()) {
-                RecentSearch::updateOrCreate(
+                RecentSearch::query()->updateOrCreate(
                     [
                         'user_id' => $request->user()->id,
                         'query' => $search
@@ -50,6 +50,12 @@ class ProductController extends Controller
                     ]
                 );
             }
+        }
+
+        if ($filter) {
+            logger()->info($filter);
+
+            $productsQuery->whereJsonContains('types', $filter);
         }
 
         $products = $productsQuery->get();
@@ -66,6 +72,7 @@ class ProductController extends Controller
             'favorites' => $favorites,
             'recentSearches' => $recentSearches,
             'search' => $search,
+            'filter' => $filter,
         ]);
     }
 

@@ -5,6 +5,7 @@ import { Head as InertiaHead, router } from '@inertiajs/vue3';
 import ProductList from '@/components/products/product-list.vue';
 import ProductSearch from '@/components/products/product-search.vue';
 import { ref, watch } from 'vue';
+import ProductFilter from '@/components/products/product-filter.vue';
 
 interface Props {
     productTypes: ProductType[];
@@ -12,12 +13,15 @@ interface Props {
     favorites: Favorite[];
     recentSearches: RecentSearch[];
     search?: string;
+    filter?: string;
 }
 
 const props = defineProps<Props>();
 
 const searchQuery = ref<string>(props.search || '');
 const isSearching = ref<boolean>(false);
+
+const filterQuery = ref<string>(props.filter || '');
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -26,17 +30,20 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const handleSearch = (query: string) => {
+const handleQueryChange = (type: 'search' | 'filter', value: string) => {
     isSearching.value = true;
 
     const timeoutId = setTimeout(() => {
         router.get(
             route('products.index'),
-            { search: query },
+            {
+                search: type === 'search' ? value : searchQuery.value,
+                filter: type === 'filter' ? value : filterQuery.value
+            },
             {
                 preserveState: true,
                 preserveScroll: true,
-                only: ['products', 'recentSearches'],
+                only: type === 'search' ? ['products', 'recentSearches'] : ['products'],
                 onSuccess: () => {
                     isSearching.value = false;
                 },
@@ -50,7 +57,8 @@ const handleSearch = (query: string) => {
     return () => clearTimeout(timeoutId);
 };
 
-watch(searchQuery, handleSearch);
+watch(searchQuery, value => handleQueryChange('search', value));
+watch(filterQuery, value => handleQueryChange('filter', value));
 </script>
 
 <template>
@@ -61,13 +69,21 @@ watch(searchQuery, handleSearch);
             <product-search
                 v-model="searchQuery"
                 :recent-searches="recentSearches"
-                @search="handleSearch"
+                @search="value => handleQueryChange('search', value)"
             />
 
-            <div v-if="isSearching" class="flex justify-center py-4">
+            <product-filter
+                v-model="filterQuery"
+                :product-types="productTypes"
+                @filter="value => handleQueryChange('filter', value)"
+            />
+
+            <product-list v-if="!isSearching" :products="products" />
+
+            <!-- Loading Spinner -->
+            <div v-else class="flex justify-center py-4">
                 <div class="animate-spin h-6 w-6 border-2 border-primary rounded-full border-t-transparent"></div>
             </div>
-            <product-list v-else :products="products" />
         </div>
     </app-layout>
 </template>
