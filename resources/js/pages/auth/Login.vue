@@ -8,11 +8,15 @@ import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Form, Head } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
+import { ref } from 'vue';
 
 defineProps<{
     status?: string;
     canResetPassword: boolean;
 }>();
+
+const defaultEmail = ref<string>('admin@test.com');
+const defaultPassword = ref<string>('password');
 </script>
 
 <template>
@@ -28,6 +32,7 @@ defineProps<{
                 <div class="grid gap-2">
                     <Label for="email">Email address</Label>
                     <Input
+                        v-model="defaultEmail"
                         id="email"
                         type="email"
                         name="email"
@@ -48,6 +53,7 @@ defineProps<{
                         </TextLink>
                     </div>
                     <Input
+                        v-model="defaultPassword"
                         id="password"
                         type="password"
                         name="password"

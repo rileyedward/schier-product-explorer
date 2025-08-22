@@ -150,7 +150,7 @@ const closeModal = () => {
 
             <DialogFooter>
                 <DialogClose asChild>
-                    <Button @click="closeModal">Close</Button>
+                    <ui-button @click="closeModal">Close</ui-button>
                 </DialogClose>
             </DialogFooter>
         </dialog-content>
