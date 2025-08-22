@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link, useForm } from '@inertiajs/vue3';
-import { BookOpen, Boxes, Folder, LayoutGrid, RefreshCw } from 'lucide-vue-next';
+import { BookOpen, Boxes, Folder, RefreshCw } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
