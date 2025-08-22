@@ -31,32 +31,7 @@ class ProductController extends Controller
 
         $productsQuery = Product::query();
 
-        if ($search) {
-            $productsQuery->where(function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%")
-                    ->orWhere('short_name', 'like', "%{$search}%")
-                    ->orWhere('part_number', 'like', "%{$search}%");
-            });
-
-            if ($request->user()) {
-                RecentSearch::query()->updateOrCreate(
-                    [
-                        'user_id' => $request->user()->id,
-                        'query' => $search
-                    ],
-                    [
-                        'created_at' => now(),
-                        'updated_at' => now()
-                    ]
-                );
-            }
-        }
-
-        if ($filter) {
-            logger()->info($filter);
-
-            $productsQuery->whereJsonContains('types', $filter);
-        }
+        $this->applySearchAndFilter($productsQuery, $search, $filter, $request);
 
         $products = $productsQuery->get();
         $favorites = Favorite::query()->where('user_id', $request->user()->id)->get();
@@ -88,32 +63,7 @@ class ProductController extends Controller
 
         $productsQuery = Product::query()->whereIn('id', $favoriteProductIds);
 
-        if ($search) {
-            $productsQuery->where(function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%")
-                    ->orWhere('short_name', 'like', "%{$search}%")
-                    ->orWhere('part_number', 'like', "%{$search}%");
-            });
-
-            if ($request->user()) {
-                RecentSearch::query()->updateOrCreate(
-                    [
-                        'user_id' => $request->user()->id,
-                        'query' => $search
-                    ],
-                    [
-                        'created_at' => now(),
-                        'updated_at' => now()
-                    ]
-                );
-            }
-        }
-
-        if ($filter) {
-            logger()->info($filter);
-
-            $productsQuery->whereJsonContains('types', $filter);
-        }
+        $this->applySearchAndFilter($productsQuery, $search, $filter, $request);
 
         $products = $productsQuery->get();
         $favorites = Favorite::query()->where('user_id', $request->user()->id)->get();
@@ -157,5 +107,35 @@ class ProductController extends Controller
         SyncSchierProductsJob::dispatch();
 
         return redirect()->back()->with('success', 'Product sync has been initiated.');
+    }
+
+    protected function applySearchAndFilter($query, $search, $filter, Request $request): void
+    {
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('short_name', 'like', "%{$search}%")
+                    ->orWhere('part_number', 'like', "%{$search}%");
+            });
+
+            if ($request->user()) {
+                RecentSearch::query()->updateOrCreate(
+                    [
+                        'user_id' => $request->user()->id,
+                        'query' => $search
+                    ],
+                    [
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]
+                );
+            }
+        }
+
+        if ($filter) {
+            logger()->info($filter);
+
+            $query->whereJsonContains('types', $filter);
+        }
     }
 }
