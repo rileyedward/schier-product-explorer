@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Console\Commands\SyncSchierProducts;
 use App\Models\Favorite;
 use App\Models\Product;
 use App\Models\ProductType;
@@ -105,6 +106,9 @@ class ProductController extends Controller
     public function sync(): RedirectResponse
     {
         Artisan::call('app:sync-schier-products');
+
+        // Would use this in production with full job queue
+        // SyncSchierProducts::dispatch();
 
         return redirect()->back()->with('success', 'Product sync has been initiated.');
     }
