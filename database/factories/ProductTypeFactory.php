@@ -20,7 +20,7 @@ class ProductTypeFactory extends Factory
 
         return [
             'object' => 'product-type',
-            'url' => '/product-types/' . $key,
+            'url' => '/product-types/'.$key,
             'name' => fake()->words(2, true),
             'key' => $key,
             'active' => fake()->boolean(80),

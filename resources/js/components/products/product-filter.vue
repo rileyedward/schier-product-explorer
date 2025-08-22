@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { Label } from '@/components/ui/label';
 import { ProductType } from '@/types';
 import { ref, watch } from 'vue';
-import { Label } from '@/components/ui/label';
 
 interface Props {
     modelValue?: string;
-    productTypes: ProductType[]
+    productTypes: ProductType[];
 }
 
 interface Emits {
@@ -30,14 +30,10 @@ watch(selectedType, (newValue) => {
         <select
             id="product-type"
             v-model="selectedType"
-            class="border-input bg-background ring-offset-background focus-visible:ring-ring flex h-9 w-full rounded-md border px-3 py-1 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
         >
             <option value="">All Types</option>
-            <option
-                v-for="type in productTypes"
-                :key="type.id"
-                :value="type.name"
-            >
+            <option v-for="type in productTypes" :key="type.id" :value="type.name">
                 {{ type.name }}
             </option>
         </select>

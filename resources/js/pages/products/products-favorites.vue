@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem, ProductType, Product, Favorite, RecentSearch } from '@/types';
-import { Head as InertiaHead, router } from '@inertiajs/vue3';
+import ProductFilter from '@/components/products/product-filter.vue';
 import ProductList from '@/components/products/product-list.vue';
 import ProductSearch from '@/components/products/product-search.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem, Favorite, Product, ProductType, RecentSearch } from '@/types';
+import { Head as InertiaHead, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
-import ProductFilter from '@/components/products/product-filter.vue';
 
 interface Props {
     productTypes: ProductType[];
@@ -31,7 +31,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Favorites',
         href: route('products.favorites'),
-    }
+    },
 ];
 
 const handleQueryChange = (type: 'search' | 'filter', value: string) => {
@@ -42,7 +42,7 @@ const handleQueryChange = (type: 'search' | 'filter', value: string) => {
             route('products.index'),
             {
                 search: type === 'search' ? value : searchQuery.value,
-                filter: type === 'filter' ? value : filterQuery.value
+                filter: type === 'filter' ? value : filterQuery.value,
             },
             {
                 preserveState: true,
@@ -53,16 +53,16 @@ const handleQueryChange = (type: 'search' | 'filter', value: string) => {
                 },
                 onError: () => {
                     isSearching.value = false;
-                }
-            }
+                },
+            },
         );
     }, 300);
 
     return () => clearTimeout(timeoutId);
 };
 
-watch(searchQuery, value => handleQueryChange('search', value));
-watch(filterQuery, value => handleQueryChange('filter', value));
+watch(searchQuery, (value) => handleQueryChange('search', value));
+watch(filterQuery, (value) => handleQueryChange('filter', value));
 </script>
 
 <template>
@@ -70,27 +70,15 @@ watch(filterQuery, value => handleQueryChange('filter', value));
 
     <app-layout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-            <product-search
-                v-model="searchQuery"
-                :recent-searches="recentSearches"
-                @search="value => handleQueryChange('search', value)"
-            />
+            <product-search v-model="searchQuery" :recent-searches="recentSearches" @search="(value) => handleQueryChange('search', value)" />
 
-            <product-filter
-                v-model="filterQuery"
-                :product-types="productTypes"
-                @filter="value => handleQueryChange('filter', value)"
-            />
+            <product-filter v-model="filterQuery" :product-types="productTypes" @filter="(value) => handleQueryChange('filter', value)" />
 
-            <product-list
-                v-if="!isSearching"
-                :products="products"
-                :favorites="favorites"
-            />
+            <product-list v-if="!isSearching" :products="products" :favorites="favorites" />
 
             <!-- Loading Spinner -->
             <div v-else class="flex justify-center py-4">
-                <div class="animate-spin h-6 w-6 border-2 border-primary rounded-full border-t-transparent"></div>
+                <div class="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
             </div>
         </div>
     </app-layout>

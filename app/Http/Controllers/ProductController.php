@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SyncSchierProductsJob;
 use App\Models\Favorite;
 use App\Models\Product;
 use App\Models\ProductType;
@@ -20,7 +19,7 @@ class ProductController extends Controller
     public function __construct()
     {
         $this->productApiClient = new ProductApiClient([
-            'api_key' => config('services.schier.key')
+            'api_key' => config('services.schier.key'),
         ]);
     }
 
@@ -123,11 +122,11 @@ class ProductController extends Controller
                 RecentSearch::query()->updateOrCreate(
                     [
                         'user_id' => $request->user()->id,
-                        'query' => $search
+                        'query' => $search,
                     ],
                     [
                         'created_at' => now(),
-                        'updated_at' => now()
+                        'updated_at' => now(),
                     ]
                 );
             }

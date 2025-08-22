@@ -31,7 +31,7 @@ class SyncSchierProducts extends Command
         parent::__construct();
 
         $this->productApiClient = new ProductApiClient([
-            'api_key' => config('services.schier.key')
+            'api_key' => config('services.schier.key'),
         ]);
     }
 
@@ -49,7 +49,7 @@ class SyncSchierProducts extends Command
         try {
             $productTypes = $this->productApiClient->productTypes();
 
-            logger()->info(collect($productTypes)->count() . ' product types found');
+            logger()->info(collect($productTypes)->count().' product types found');
 
             foreach (collect($productTypes) as $productType) {
                 $productTypeData = $productType->toArray();
@@ -69,7 +69,7 @@ class SyncSchierProducts extends Command
         try {
             $products = $this->productApiClient->products();
 
-            logger()->info(collect($products)->count() . ' products found');
+            logger()->info(collect($products)->count().' products found');
 
             foreach (collect($products) as $product) {
                 $productData = $product->toArray();

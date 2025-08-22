@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { RecentSearch } from '@/types';
 import { Input as UiInput } from '@/components/ui/input';
-import { ref, watch, computed } from 'vue';
-import { SearchIcon, ClockIcon, XIcon } from 'lucide-vue-next';
+import { RecentSearch } from '@/types';
+import { ClockIcon, SearchIcon, XIcon } from 'lucide-vue-next';
+import { computed, ref, watch } from 'vue';
 
 interface Props {
     modelValue?: string;
@@ -53,10 +53,10 @@ watch(searchQuery, (newValue) => {
     <div class="relative">
         <!-- Search Input -->
         <div class="relative">
-            <search-icon class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <search-icon class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <ui-input
                 v-model="searchQuery"
-                class="pl-10 pr-10"
+                class="pr-10 pl-10"
                 placeholder="Search products by name or SKU..."
                 @focus="handleFocus"
                 @blur="handleBlur"
@@ -64,17 +64,14 @@ watch(searchQuery, (newValue) => {
             <button
                 v-if="searchQuery"
                 @click="clearSearch"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                class="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground hover:text-foreground"
             >
                 <x-icon class="h-4 w-4" />
             </button>
         </div>
 
         <!-- Recent Searches -->
-        <div
-            v-if="showRecentSearches && hasRecentSearches"
-            class="absolute z-10 mt-1 w-full rounded-md border bg-card shadow-lg"
-        >
+        <div v-if="showRecentSearches && hasRecentSearches" class="absolute z-10 mt-1 w-full rounded-md border bg-card shadow-lg">
             <div class="p-2 text-sm font-medium text-muted-foreground">Recent Searches</div>
             <div class="max-h-60 overflow-auto">
                 <button

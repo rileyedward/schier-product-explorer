@@ -37,6 +37,6 @@ return [
 
     'schier' => [
         'key' => env('SCHIER_API_KEY'),
-    ]
+    ],
 
 ];

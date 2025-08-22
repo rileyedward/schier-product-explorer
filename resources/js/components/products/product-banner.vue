@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Product, Favorite } from '@/types';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Favorite, Product } from '@/types';
 import { Heart } from 'lucide-vue-next';
 import { computed } from 'vue';
 
@@ -19,7 +19,7 @@ const emit = defineEmits<Emits>();
 
 const isFavorite = computed(() => {
     if (!props.favorites) return false;
-    return props.favorites.some(favorite => favorite.product_id === props.product.id);
+    return props.favorites.some((favorite) => favorite.product_id === props.product.id);
 });
 
 const handleClick = () => {
@@ -28,17 +28,14 @@ const handleClick = () => {
 </script>
 
 <template>
-    <card
-        class="w-full hover:bg-muted/50 cursor-pointer hover:scale-105 transition-all"
-        @click="handleClick"
-    >
+    <card class="w-full cursor-pointer transition-all hover:scale-105 hover:bg-muted/50" @click="handleClick">
         <card-header class="flex flex-row items-center gap-4">
             <avatar class="size-16">
                 <avatar-image v-if="product.images?.primary?.md" :src="product.images.primary.md" :alt="product.name" />
                 <avatar-fallback v-else class="text-lg">{{ product.short_name.substring(0, 2) }}</avatar-fallback>
             </avatar>
             <div class="flex-1">
-                <div class="flex justify-between items-center">
+                <div class="flex items-center justify-between">
                     <card-title>{{ product.short_name }}</card-title>
                     <heart v-if="isFavorite" class="h-5 w-5 text-red-500" />
                 </div>

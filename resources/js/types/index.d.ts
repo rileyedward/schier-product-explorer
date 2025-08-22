@@ -44,7 +44,7 @@ export interface ProductCategory {
     image?: string | null;
     created: string;
     last_updated: string;
-    parent? : string | null;
+    parent?: string | null;
     types?: string[];
 }
 
