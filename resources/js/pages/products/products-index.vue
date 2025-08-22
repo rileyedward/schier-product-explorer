@@ -2,6 +2,7 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem, ProductType, Product, Favorite, RecentSearch } from '@/types';
 import { Head as InertiaHead } from '@inertiajs/vue3';
+import ProductList from '@/components/products/product-list.vue';
 
 interface Props {
     productTypes: ProductType[];
@@ -25,21 +26,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <app-layout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-            <div>
-                Types: {{ JSON.stringify(productTypes) }}
-            </div>
-
-            <div>
-                Products: {{ JSON.stringify(products) }}
-            </div>
-
-            <div>
-                Favorites: {{ JSON.stringify(favorites) }}
-            </div>
-
-            <div>
-                Recent Searches: {{ JSON.stringify(recentSEarches) }}
-            </div>
+            <product-list :products="products" />
         </div>
     </app-layout>
 </template>
