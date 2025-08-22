@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2308adc93d4b141a50328620d8c89a5",
+    "content-hash": "f28110b312524a124013ce8c62d8c5e3",
     "packages": [
         {
             "name": "brick/math",
@@ -3343,6 +3343,71 @@
                 "source": "https://github.com/ramsey/uuid/tree/4.9.0"
             },
             "time": "2025-06-25T14:20:11+00:00"
+        },
+        {
+            "name": "schierproducts/schier-product-api",
+            "version": "v2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schierproducts/schier-products-api.git",
+                "reference": "1ba4b3abd884187bd3a6b3105a8850d7254fe915"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schierproducts/schier-products-api/zipball/1ba4b3abd884187bd3a6b3105a8850d7254fe915",
+                "reference": "1ba4b3abd884187bd3a6b3105a8850d7254fe915",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "guzzlehttp/guzzle": "^7.0",
+                "illuminate/http": "^9.0|^10.0|^11.0|^12.0",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.13",
+                "orchestra/testbench": "^8.0",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "SchierProductApi": "Products"
+                    },
+                    "providers": [
+                        "SchierProducts\\SchierProductApi\\SchierProductApiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SchierProducts\\SchierProductApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Doug Niccum",
+                    "email": "doug.niccum@schierproducts.com",
+                    "homepage": "https://dniccumdesign.com"
+                },
+                {
+                    "name": "Matt Coleman",
+                    "email": "matt.coleman@schierproducts.com"
+                }
+            ],
+            "description": "A PHP wrapper to access and interact with the Schier Products product API.",
+            "support": {
+                "issues": "https://github.com/schierproducts/schier-products-api/issues",
+                "source": "https://github.com/schierproducts/schier-products-api/tree/v2.2.2"
+            },
+            "time": "2025-04-30T13:47:22+00:00"
         },
         {
             "name": "symfony/clock",

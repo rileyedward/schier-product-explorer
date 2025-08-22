@@ -4,12 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Response;
+use SchierProducts\SchierProductApi\ApiClients\ProductApi\ProductApiClient;
+use SchierProducts\SchierProductApi\Exception\ApiErrorException;
 
 class ProductController extends Controller
 {
+    protected ProductApiClient $productApiClient;
+
+    public function __construct()
+    {
+        $this->productApiClient = new ProductApiClient([
+            'api_key' => config('services.schier.key')
+        ]);
+    }
+
     public function index(): Response
     {
-        // TODO: Pull down products from SDK...
+        $productTypes = $this->productApiClient->productTypes();
+        $products = $this->productApiClient->products();
+
+        logger()->info($productTypes);
+        logger()->info($products);
 
         return inertia('products/products-index');
     }
