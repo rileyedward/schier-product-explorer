@@ -96,86 +96,38 @@ export interface ProductPrice {
     stocking_wholesale: Price;
 }
 
-export interface FuturePrice {
-    object: string;
-    activeAt: string | null;
-}
-
-export interface Processing {
-    lead_time: number;
-    threshold: number;
-}
-
-export interface BaseModel {
-    is_base_model: boolean;
-    base_part_number: string;
-}
-
-export interface InstallationDimension {
-    delta_dimension: Measurement;
-    neck_line_height: Measurement;
-}
-
-export interface InstallationDimensions {
-    object: string;
-    standard: InstallationDimension;
-    metric: InstallationDimension;
-}
-
-export interface DocumentLibrary {
-    object: string;
-    pdf: string | null;
-    dwg: string | null;
-}
-
-export interface InstallationGuide extends DocumentLibrary {
-    pdf_french: string | null;
-    pdf_spanish: string | null;
-}
-
-export interface ListObject {
-    object: string;
-    data: any[];
-}
-
 export interface Product {
     id: number;
-    object: string;
-    url: string;
+    api_id: number;
     name: string;
     short_name: string;
-    created: string;
-    updated: string;
-    types: string[];
     part_number: string;
-    base_model: BaseModel;
-    store_id: string;
-    shipping_group: string;
+    store_id?: string;
+    shipping_group?: string;
     active: boolean;
     visible_on_store: boolean;
-    description: string;
-    short_description: string;
-    market_specific_description: string | null;
-    website_url: string;
-    images: ProductImageLibrary;
-    processing: Processing;
-    price: ProductPrice;
-    future_price: FuturePrice;
-    base_dimensions: DimensionSet;
-    shipping_dimensions: DimensionSet;
-    case_shipping_dimensions: DimensionSet[] | [];
-    case_quantity: number | null;
-    manway_access_ports: number;
-    units_in_series: any[];
-    installation_dimensions: InstallationDimensions;
-    options: ListObject;
-    certifications: any[];
-    barcodes: any[] | null;
-    spec_sheet: DocumentLibrary;
-    installation_guide: InstallationGuide;
-    revit: string | null;
-    owners_manual: string | null;
-    csi_masterspec: string | null;
+    description?: string;
+    short_description?: string;
+    website_url?: string;
+    types?: string[];
+    images?: ProductImageLibrary;
+    price?: ProductPrice;
+    base_dimensions?: DimensionSet;
+    shipping_dimensions?: DimensionSet;
+    created?: string;
+    updated?: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Favorite {
+    id: number;
+    user_id: number;
+    product_id: number;
+    created_at: string;
+    updated_at: string;
+    user?: User;
+    product?: Product;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
