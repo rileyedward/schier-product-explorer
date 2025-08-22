@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SyncSchierProductsJob;
+use App\Models\Favorite;
+use App\Models\Product;
+use App\Models\ProductType;
+use App\Models\RecentSearch;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -19,17 +23,19 @@ class ProductController extends Controller
         ]);
     }
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
-//        $productTypes = $this->productApiClient->productTypes();
-//        $products = $this->productApiClient->products();
-//
-//        logger()->info($products->count());
+        $productTypes = ProductType::query()->get();
+        $products = Product::query()->get();
+        $favorites = Favorite::query()->where('user_id', $request->user()->id)->get();
+        $recentSearches = RecentSearch::query()->where('user_id', $request->user()->id)->get();
 
-//        logger()->info($productTypes);
-//        logger()->info($products);
-
-        return inertia('products/products-index');
+        return inertia('products/products-index', [
+            'productTypes' => $productTypes,
+            'products' => $products,
+            'favorites' => $favorites,
+            'recentSearches' => $recentSearches,
+        ]);
     }
 
     public function favorites(): Response

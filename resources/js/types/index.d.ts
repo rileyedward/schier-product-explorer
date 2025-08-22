@@ -149,4 +149,13 @@ export interface Favorite {
     product?: Product;
 }
 
+export interface RecentSearch {
+    id: number;
+    user_id: number;
+    query: string;
+    created_at: string;
+    updated_at: string;
+    user?: User;
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;
