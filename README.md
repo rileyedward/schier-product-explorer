@@ -1,12 +1,12 @@
 # Schier Product Explorer
 
-A web application for exploring, searching, and managing Schier products. This tool provides an intuitive interface for users to interact with the Schier product catalog.
+Search for your favorite Schier products.
 
 ## Overview
 
 ### What is Schier Product Explorer?
 
-Schier Product Explorer is a Laravel and Vue.js based application designed to help users browse, search, and manage Schier products. It integrates with the Schier Products API to provide up-to-date product information and allows users to maintain a personalized list of favorite products for quick access.
+Schier Product Explorer a web application for exploring, searching, and managing Schier products. This tool provides an intuitive interface for users to interact with the Schier product catalog.
 
 ### Key Features
 
