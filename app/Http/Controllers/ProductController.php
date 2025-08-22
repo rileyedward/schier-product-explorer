@@ -9,6 +9,7 @@ use App\Models\ProductType;
 use App\Models\RecentSearch;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Inertia\Response;
 use SchierProducts\SchierProductApi\ApiClients\ProductApi\ProductApiClient;
 
@@ -104,7 +105,7 @@ class ProductController extends Controller
 
     public function sync(): RedirectResponse
     {
-        SyncSchierProductsJob::dispatch();
+        Artisan::call('app:sync-schier-products');
 
         return redirect()->back()->with('success', 'Product sync has been initiated.');
     }

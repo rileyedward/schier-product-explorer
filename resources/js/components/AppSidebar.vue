@@ -2,10 +2,10 @@
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
-import { BookOpen, Boxes, Folder, LayoutGrid } from 'lucide-vue-next';
+import { Link, useForm } from '@inertiajs/vue3';
+import { BookOpen, Boxes, Folder, LayoutGrid, RefreshCw } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -25,6 +25,8 @@ const mainNavItems: NavItem[] = [
         icon: BookOpen,
     },
 ];
+
+const form = useForm({});
 
 const footerNavItems: NavItem[] = [
     {
@@ -56,6 +58,20 @@ const footerNavItems: NavItem[] = [
 
         <SidebarContent>
             <NavMain :items="mainNavItems" />
+
+            <SidebarGroup class="px-2 py-2">
+                <SidebarGroupLabel>Actions</SidebarGroupLabel>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton as-child tooltip="Sync Products" @click="form.post(route('products.sync'))">
+                            <div class="flex items-center">
+                                <RefreshCw class="mr-2" />
+                                <span>Sync Products</span>
+                            </div>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarGroup>
         </SidebarContent>
 
         <SidebarFooter>
