@@ -18,6 +18,11 @@ class Product extends Model
         return $this->belongsToMany(ProductType::class, 'product_product_type');
     }
 
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
     protected $fillable = [
         'name',
         'short_name',

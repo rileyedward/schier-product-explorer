@@ -19,6 +19,11 @@ const mainNavItems: NavItem[] = [
         href: route('products.index'),
         icon: Boxes,
     },
+    {
+        title: 'Favorites',
+        href: route('products.favorites'),
+        icon: BookOpen,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

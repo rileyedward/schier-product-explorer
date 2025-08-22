@@ -76,11 +76,61 @@ class ProductController extends Controller
         ]);
     }
 
-    public function favorites(): Response
+    public function favorites(Request $request): Response
     {
-        // TODO: Pull down favorites...
+        $search = $request->input('search');
+        $filter = $request->input('filter');
+        $productTypes = ProductType::query()->get();
 
-        return inertia('products/products-favorites');
+        $favoriteProductIds = Favorite::query()
+            ->where('user_id', $request->user()->id)
+            ->pluck('product_id');
+
+        $productsQuery = Product::query()->whereIn('id', $favoriteProductIds);
+
+        if ($search) {
+            $productsQuery->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('short_name', 'like', "%{$search}%")
+                    ->orWhere('part_number', 'like', "%{$search}%");
+            });
+
+            if ($request->user()) {
+                RecentSearch::query()->updateOrCreate(
+                    [
+                        'user_id' => $request->user()->id,
+                        'query' => $search
+                    ],
+                    [
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]
+                );
+            }
+        }
+
+        if ($filter) {
+            logger()->info($filter);
+
+            $productsQuery->whereJsonContains('types', $filter);
+        }
+
+        $products = $productsQuery->get();
+        $favorites = Favorite::query()->where('user_id', $request->user()->id)->get();
+        $recentSearches = RecentSearch::query()
+            ->where('user_id', $request->user()->id)
+            ->orderBy('updated_at', 'desc')
+            ->limit(5)
+            ->get();
+
+        return inertia('products/products-favorites', [
+            'productTypes' => $productTypes,
+            'products' => $products,
+            'favorites' => $favorites,
+            'recentSearches' => $recentSearches,
+            'search' => $search,
+            'filter' => $filter,
+        ]);
     }
 
     public function toggleFavorite(Request $request, Product $product): RedirectResponse
