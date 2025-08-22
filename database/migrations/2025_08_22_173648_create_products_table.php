@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('api_id')->unique();
             $table->string('name');
             $table->string('short_name');
             $table->string('part_number')->unique();

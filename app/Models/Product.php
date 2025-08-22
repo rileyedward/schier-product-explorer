@@ -13,8 +13,12 @@ class Product extends Model
 
     protected $table = 'products';
 
+    public function productTypes(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductType::class, 'product_product_type');
+    }
+
     protected $fillable = [
-        'api_id',
         'name',
         'short_name',
         'part_number',

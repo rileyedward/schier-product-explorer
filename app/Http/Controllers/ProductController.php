@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use SchierProducts\SchierProductApi\ApiClients\ProductApi\ProductApiClient;
-use SchierProducts\SchierProductApi\Exception\ApiErrorException;
 
 class ProductController extends Controller
 {
@@ -20,11 +19,13 @@ class ProductController extends Controller
 
     public function index(): Response
     {
-        $productTypes = $this->productApiClient->productTypes();
-        $products = $this->productApiClient->products();
+//        $productTypes = $this->productApiClient->productTypes();
+//        $products = $this->productApiClient->products();
+//
+//        logger()->info($products->count());
 
-        logger()->info($productTypes);
-        logger()->info($products);
+//        logger()->info($productTypes);
+//        logger()->info($products);
 
         return inertia('products/products-index');
     }

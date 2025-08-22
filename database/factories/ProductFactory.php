@@ -17,7 +17,6 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'api_id' => fake()->unique()->numberBetween(1, 1000),
             'name' => fake()->word(),
             'short_name' => fake()->word(),
             'part_number' => fake()->unique()->regexify('[A-Z0-9]{4}-[A-Z0-9]{3}-[A-Z0-9]{2}'),

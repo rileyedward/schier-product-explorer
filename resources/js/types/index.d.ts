@@ -98,7 +98,6 @@ export interface ProductPrice {
 
 export interface Product {
     id: number;
-    api_id: number;
     name: string;
     short_name: string;
     part_number: string;
@@ -118,6 +117,26 @@ export interface Product {
     updated?: string;
     created_at: string;
     updated_at: string;
+    productTypes?: ProductType[];
+}
+
+export interface ProductType {
+    id: number;
+    object: string;
+    url: string;
+    name: string;
+    key: string;
+    active: boolean;
+    image: string | null;
+    created: string;
+    last_updated: string;
+    parent_id: number | null;
+    types: any[];
+    created_at: string;
+    updated_at: string;
+    parent?: ProductType;
+    children?: ProductType[];
+    products?: Product[];
 }
 
 export interface Favorite {
