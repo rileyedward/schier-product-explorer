@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SyncSchierProductsJob;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use SchierProducts\SchierProductApi\ApiClients\ProductApi\ProductApiClient;
@@ -35,5 +37,12 @@ class ProductController extends Controller
         // TODO: Pull down favorites...
 
         return inertia('products/products-favorites');
+    }
+
+    public function sync(): RedirectResponse
+    {
+        SyncSchierProductsJob::dispatch();
+
+        return redirect()->back()->with('success', 'Product sync has been initiated.');
     }
 }
