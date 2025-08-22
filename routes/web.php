@@ -2,14 +2,25 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    Route::controller(ProductController::class)
+        ->prefix('products')
+        ->name('products.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/favorites', 'favorites')->name('favorites');
+        });
+});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
